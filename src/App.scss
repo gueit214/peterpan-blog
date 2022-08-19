@@ -1,0 +1,48 @@
+* {
+  font-family: "Nanum Pen Script", cursive;
+  font-family: "Noto Sans KR", sans-serif;
+}
+body {
+  width: 100%;
+}
+.Layout {
+  margin: 1rem auto;
+  width: 90%;
+  max-width: 80rem;
+}
+.Header {
+  height: 120px;
+  position: relative;
+  background-color: #e4d8dc;
+  .title {
+    position: absolute;
+    font-size: 40px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .nav-link {
+    color: black;
+  }
+  .link-page .nav-link.active,
+  .link-util .nav-link.active {
+    background-color: #ffe3e3;
+  }
+  .link-page {
+    position: absolute;
+    left: 10px;
+    bottom: 0;
+    .nav-board {
+    }
+  }
+  .link-util {
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+  }
+}
