@@ -1,8 +1,9 @@
-import React, { useContext, useReducer, useRef, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import React, { useContext, useReducer, useState } from "react";
+
 import LoginContext from "../../store/login-context";
 import { useNavigate } from "react-router-dom";
+import Loading from "../UI/Loading";
+import ErrorModal from "../UI/ErrorModal";
 
 const API = "AIzaSyCZCR5mTjTlzy86hMyvps1-JcrDc015NxQ";
 
@@ -33,8 +34,6 @@ const reducer = (state, action) => {
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const idRef = useRef();
-  const pwRef = useRef();
 
   const [fetchState, dispatch] = useReducer(reducer, {
     status: null,
@@ -45,13 +44,14 @@ const LoginForm = () => {
       type: "",
     });
   };
+  console.log(fetchState);
   const { onLogin } = useContext(LoginContext);
 
   const doWhat = "signIn";
   const handleLogin = async (e) => {
     e.preventDefault();
-    const inputId = idRef.current.value;
-    const inputPw = pwRef.current.value;
+    const inputId = e.target[0].value;
+    const inputPw = e.target[1].value;
     dispatch({ type: "PENDING" });
     let url;
     if (doWhat === "signUp") {
@@ -74,7 +74,7 @@ const LoginForm = () => {
       const data = await response.json();
       if (response.ok) {
         dispatch({ type: "SUCCESS" });
-        return;
+        return data;
       } else {
         throw new Error(data.error.message);
       }
@@ -94,38 +94,35 @@ const LoginForm = () => {
       dispatch({ type: "ERROR", message: String(error) });
     }
   };
-  const errorModal = (
-    <Modal show={fetchState.status === "error"} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>{fetchState.status}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>{fetchState.message}</Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
-  const loading = fetchState.status === "pending" && (
-    <div className="spinner-border text-primary" role="status">
-      <span className="visually-hidden">Loading...</span>
-    </div>
-  );
+
+  const handleSignup = () => {
+    navigate("/signup");
+  };
+
+  const loading = fetchState.status === "pending" && <Loading />;
   return (
     <form className="LoginForm" onSubmit={handleLogin}>
-      {errorModal}
+      {fetchState.status === "error" && (
+        <ErrorModal message={fetchState.message} handleClose={handleClose} />
+      )}
       {loading}
       <div className="input-group mb-3">
-        <label className="input-group-text">id</label>
-        <input type="id" className="form-control" ref={idRef} />
+        <label className="input-group-text">이메일</label>
+        <input type="id" className="form-control" />
       </div>
       <div className="input-group">
-        <label className="input-group-text">password</label>
-        <input type="password" className="form-control" ref={pwRef} />
+        <label className="input-group-text">비밀번호</label>
+        <input type="password" className="form-control" />
       </div>
       <button type="submit" className="btn-login btn btn-outline-success">
-        Login
+        로그인
+      </button>
+      <button
+        type="button"
+        className="btn-login btn btn-outline-success"
+        onClick={handleSignup}
+      >
+        회원가입
       </button>
     </form>
   );
