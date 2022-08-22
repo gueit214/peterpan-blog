@@ -3,9 +3,12 @@
   display: flex;
   justify-content: center;
   margin-top: 100px;
-  position: relative;
 
   .SignupForm {
+    padding: 80px 40px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    position: relative;
     .row {
       margin-bottom: 10px;
       display: flex;
@@ -13,7 +16,7 @@
       label {
       }
       input {
-        width: 700px;
+        width: 600px;
       }
       &.id::before,
       &.pw::before {
@@ -24,8 +27,8 @@
     }
     .btn-submit {
       position: absolute;
-      right: 0;
-      bottom: 0;
+      right: 20px;
+      bottom: 20px;
     }
   }
 }

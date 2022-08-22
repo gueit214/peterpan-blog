@@ -1,18 +1,24 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import LoginContext from "../../store/login-context";
 
 const Header = () => {
+  const navigate = useNavigate();
   const { isLogin, onLogout } = useContext(LoginContext);
   const handleLogout = () => {
     onLogout();
+    navigate("/");
   };
+  let profileUrl;
+  if (isLogin) {
+    const { nickname } = JSON.parse(localStorage.getItem("loginInfo"));
+    profileUrl = `/profile/${nickname}`;
+  }
   return (
     <header className="Header">
       <NavLink to="/main" className="title nav-link">
         Peterpan Blog
       </NavLink>
-
       <nav className="link-page">
         <ul className="nav nav-tabs">
           <li>
@@ -44,9 +50,14 @@ const Header = () => {
           </li>
           <li>
             {isLogin ? (
-              <button className="nav-login nav-link" onClick={handleLogout}>
-                로그아웃
-              </button>
+              <div className="form-group">
+                <NavLink to={profileUrl} className="nav-login nav-link">
+                  프로필
+                </NavLink>
+                <button className="nav-login nav-link" onClick={handleLogout}>
+                  로그아웃
+                </button>
+              </div>
             ) : (
               <NavLink to="/login" className="nav-login nav-link">
                 로그인
@@ -59,4 +70,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

@@ -1,111 +1,52 @@
 import React, { useContext, useReducer, useState } from "react";
 
-import LoginContext from "../../store/login-context";
+import LoginContext, { LoginContextProvider } from "../../store/login-context";
 import { useNavigate } from "react-router-dom";
 import Loading from "../UI/Loading";
-import ErrorModal from "../UI/ErrorModal";
-
-const API = "AIzaSyCZCR5mTjTlzy86hMyvps1-JcrDc015NxQ";
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "PENDING":
-      return {
-        status: "pending",
-        message: "Loading...",
-      };
-    case "SUCCESS":
-      return {
-        status: "success",
-        message: "Completed!",
-      };
-    case "ERROR":
-      return {
-        status: "error",
-        message: action.message,
-      };
-    default:
-      return {
-        status: "",
-        message: "",
-      };
-  }
-};
+import AlertModal from "../UI/AlertModal";
+import { firebaseConfig } from "../../store/firebase";
+import useFetch, { loginFetch } from "../../hooks/useFetch";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-
-  const [fetchState, dispatch] = useReducer(reducer, {
-    status: null,
-    message: null,
-  });
-  const handleClose = () => {
-    dispatch({
-      type: "",
-    });
-  };
-  console.log(fetchState);
+  const { sendRequest, status, message, data, setFetchStateDefault } =
+    useFetch(loginFetch);
   const { onLogin } = useContext(LoginContext);
 
-  const doWhat = "signIn";
+  // 로그인 버튼
   const handleLogin = async (e) => {
     e.preventDefault();
-    const inputId = e.target[0].value;
-    const inputPw = e.target[1].value;
-    dispatch({ type: "PENDING" });
-    let url;
-    if (doWhat === "signUp") {
-      url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API}`;
-    } else if (doWhat === "signIn") {
-      url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API}`;
-    }
-    const sendRequest = async () => {
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify({
-          email: inputId,
-          password: inputPw,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      if (response.ok) {
-        dispatch({ type: "SUCCESS" });
-        return data;
-      } else {
-        throw new Error(data.error.message);
-      }
-    };
-    try {
-      const responseData = await sendRequest();
-      localStorage.setItem(
-        "loginInfo",
-        JSON.stringify({
-          id: responseData.email,
-          idToken: responseData.idToken,
-        })
-      );
-      onLogin();
-      navigate("/");
-    } catch (error) {
-      dispatch({ type: "ERROR", message: String(error) });
-    }
+    const id = e.target[0].value;
+    const pw = e.target[1].value;
+    await sendRequest({ email: id, password: pw, returnSecureToken: true });
   };
-
-  const handleSignup = () => {
-    navigate("/signup");
-  };
-
-  const loading = fetchState.status === "pending" && <Loading />;
+  console.log(status, message, data);
+  // data 중 displayname(nickname)을 localStorage에 저장하기
+  if (status === "success") {
+    onLogin({ nickname: data.displayName });
+  }
+  const successScreen = status === "success" && (
+    <AlertModal
+      title="축하합니다!"
+      message={"로그인에 성공하였습니다!"}
+      handleClose={() => {
+        navigate("/");
+      }}
+    />
+  );
+  const loadingScreen = status === "loading" && <Loading />;
+  const errorScreen = status === "error" && (
+    <AlertModal
+      title="에러가 발생하였습니다."
+      message={message}
+      handleClose={setFetchStateDefault}
+    />
+  );
   return (
     <form className="LoginForm" onSubmit={handleLogin}>
-      {fetchState.status === "error" && (
-        <ErrorModal message={fetchState.message} handleClose={handleClose} />
-      )}
-      {loading}
+      {loadingScreen}
+      {successScreen}
+      {errorScreen}
       <div className="input-group mb-3">
         <label className="input-group-text">이메일</label>
         <input type="id" className="form-control" />
@@ -120,7 +61,9 @@ const LoginForm = () => {
       <button
         type="button"
         className="btn-login btn btn-outline-success"
-        onClick={handleSignup}
+        onClick={() => {
+          navigate("/signup");
+        }}
       >
         회원가입
       </button>

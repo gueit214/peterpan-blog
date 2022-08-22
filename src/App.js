@@ -11,6 +11,7 @@ import NoAuth from "./components/UI/NoAuth";
 import PostDetail from "./pages/PostDetail";
 import "./scss/App.scss";
 import Signup from "./pages/Signup";
+import Profile from "./pages/Profile";
 
 function App() {
   const { isLogin } = useContext(LoginContext);
@@ -30,6 +31,10 @@ function App() {
             element={isLogin ? <NewWrite /> : <NoAuth />}
           />
           <Route path="login" element={<Login />} />
+          <Route
+            path="profile/:nickname"
+            element={isLogin ? <Profile /> : <NoAuth />}
+          />
           <Route path="signup" element={<Signup />} />
           <Route path="search" element={<Search />} />
           <Route path="noauth" element={<NoAuth />} />

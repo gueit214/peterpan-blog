@@ -12,15 +12,18 @@ export const LoginContextProvider = (props) => {
       setIsLogin(true);
     }
   };
+
   useEffect(() => {
     checkLoginToken();
   }, []);
-  const onLogin = () => {
-    setIsLogin(true);
+  const onLogin = (userInfo) => {
+    localStorage.setItem(
+      "loginInfo",
+      JSON.stringify({ nickname: userInfo.nickname })
+    );
   };
   const onLogout = () => {
     localStorage.removeItem("loginInfo");
-    setIsLogin(false);
   };
 
   const contextValue = {

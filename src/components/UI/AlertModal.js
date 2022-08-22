@@ -2,12 +2,12 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-const ErrorModal = (props) => {
+const AlertModal = (props) => {
+  // props ; handleClose, tilte, message
   return (
-    // <div>dd</div>
     <Modal show={true} onHide={props.handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Error</Modal.Title>
+        <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>{props.message}</Modal.Body>
       <Modal.Footer>
@@ -19,4 +19,4 @@ const ErrorModal = (props) => {
   );
 };
 
-export default ErrorModal;
+export default AlertModal;
