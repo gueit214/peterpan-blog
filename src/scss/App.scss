@@ -3,7 +3,9 @@
 @import "/src/scss/NewWrite.scss";
 @import "/src/scss/PostDetail.scss";
 @import "/src/scss/Profile.scss";
-
+@import "/src/scss/Signup.scss";
+@import "/src/scss/Main.scss";
+@import "/src/scss/NoAuth.scss";
 * {
   font-family: "Nanum Pen Script", cursive;
   // font-family: "Noto Sans KR", sans-serif;
@@ -17,6 +19,7 @@ body {
   width: 90%;
   max-width: 80rem;
 }
+
 .Header {
   height: 120px;
   position: relative;
@@ -67,54 +70,4 @@ body {
   bottom: 0;
   top: 0;
   margin: auto;
-}
-
-.InputForm {
-  height: 500px;
-  width: 80%;
-  display: flex;
-  justify-content: center;
-  margin-top: 100px;
-  padding: 80px 40px;
-  border-radius: 10px;
-  border: 1px solid gray;
-  position: relative;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  margin-top: 100px;
-  form {
-    .row {
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      label {
-        text-align: center;
-      }
-      input {
-        width: 600px;
-      }
-      &::before {
-        content: "*";
-        color: red;
-        position: absolute;
-      }
-    }
-    .nickname div {
-      position: relative;
-    }
-    .btn-submit {
-      position: absolute;
-      right: 20px;
-      bottom: 20px;
-    }
-    .button-check-overlay {
-      position: absolute;
-      right: 7px;
-      bottom: 0;
-      top: 0;
-    }
-  }
 }

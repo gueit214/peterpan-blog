@@ -11,22 +11,22 @@ const PostList = (props) => {
     useFetch(getPostList);
 
   const getPostFromDB = useCallback(async () => {
-    const responsePost = await sendRequest(board.name);
-    const reponsePostList = [];
+    const responsePost = await sendRequest();
+    const thisBoardPost = Object.values(responsePost).filter(
+      (post) => post.board === board.name
+    );
+    const responsePostList = [];
     if (!responsePost) {
       return;
     }
-    Object.entries(responsePost).forEach((post) => {
-      reponsePostList.push({
+    Object.entries(thisBoardPost).forEach((post) => {
+      responsePostList.push({
         id: post[0],
-        title: post[1].title,
-        content: post[1].content,
-        date: post[1].date,
-        nickname: post[1].nickname,
+        ...post[1],
         boardName: board.name,
       });
     });
-    setPostList(reponsePostList);
+    setPostList(responsePostList);
   }, []);
 
   useEffect(() => {

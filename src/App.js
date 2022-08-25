@@ -2,7 +2,6 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./components/UI/Layout";
 import { lazy, Suspense, useContext } from "react";
 import LoginContext from "./store/login-context";
-import NoAuth from "./components/UI/NoAuth";
 import PostDetail from "./pages/PostDetail";
 import "./scss/App.scss";
 
@@ -13,6 +12,7 @@ const Search = lazy(() => import("./pages/Search"));
 const NewWrite = lazy(() => import("./pages/NewWrite"));
 const Signup = lazy(() => import("./pages/Signup"));
 const Profile = lazy(() => import("./pages/Profile"));
+const NoAuth = lazy(() => import("./pages/NoAuth"));
 
 function App() {
   const { isLogin } = useContext(LoginContext);
@@ -25,7 +25,7 @@ function App() {
             <Route path="main" element={<Main />} />
             <Route path="board" element={isLogin ? <Board /> : <NoAuth />} />
             <Route
-              path="board/:boardName/:id"
+              path="board/:writeCount"
               element={isLogin ? <PostDetail /> : <NoAuth />}
             />
             <Route

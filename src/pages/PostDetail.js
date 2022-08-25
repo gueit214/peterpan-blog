@@ -1,49 +1,76 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
+import useFetch, { deletePostList, getPostList } from "../hooks/useFetch";
+import useScreen from "../hooks/useScreen";
 
 const PostDetail = () => {
-  const params = useParams();
-  const [postData, setPostData] = useState([]);
+  const navigate = useNavigate();
+  const { writeCount } = useParams();
+  const [post, setPost] = useState([]);
 
-  const fetchPost = useCallback(async () => {
-    const sendRequest = async () => {
-      const response = await fetch(
-        `https://peterpan-blog-default-rtdb.firebaseio.com/${params.boardName}/${params.id}.json`
-      );
-      const reponseData = await response.json();
-      if (response.ok) {
-        setPostData({
-          id: params.id,
-          content: reponseData.content,
-          date: reponseData.date,
-          authorId: reponseData.id,
-          title: reponseData.title,
-        });
-        return;
-      } else {
-        throw new Error(reponseData.error);
-      }
-    };
-    try {
-      await sendRequest();
-    } catch (error) {}
+  const { sendRequest, status, message, setFetchStateDefault } =
+    useFetch(getPostList);
+  const screen = useScreen({
+    status,
+    errorMessage: message,
+    setFetchStateDefault,
+    goToMainIfSuccess: false,
+  });
+  const {
+    sendRequest: deleteSendRequest,
+    status: deleteState,
+    message: deleteMessage,
+    setFetchStateDefault: deleteSetFetchStateDefault,
+  } = useFetch(deletePostList);
+  const deleteScreen = useScreen({
+    status: deleteState,
+    errorMessage: deleteMessage,
+    setFetchStateDefault: deleteSetFetchStateDefault,
+    goToMainIfSuccess: true,
+  });
+
+  const getPostFromDB = useCallback(async () => {
+    const responsePost = await sendRequest();
+    const thisPostIndex = Object.values(responsePost).findIndex(
+      (post) => post.writeCount === +writeCount
+    );
+
+    if (!responsePost) {
+      return;
+    }
+    setPost({
+      id: Object.keys(responsePost)[thisPostIndex],
+      ...Object.values(responsePost)[thisPostIndex],
+    });
   }, []);
+
   useEffect(() => {
-    fetchPost();
-  }, []);
-  const writedDate = new Date(postData.date);
-  const printingWritedDate = `${writedDate.getFullYear()}년 ${writedDate.getMonth()}월 ${writedDate.getDate()}일 ${writedDate.getHours()}시 ${writedDate.getMinutes()}분`;
+    getPostFromDB();
+  }, [getPostFromDB]);
 
+  const writedDate = new Date(post.date);
+  const printingWritedDate = `${writedDate.getFullYear()}년 ${writedDate.getMonth()}월 ${writedDate.getDate()}일 ${writedDate.getHours()}시 ${writedDate.getMinutes()}분`;
   const handleEditPost = () => {};
-  const handleDeletePost = () => {};
+  const handleDeletePost = async () => {
+    if (window.confirm("정말로 삭제하시겠습니까?")) {
+      await deleteSendRequest(post.id);
+    }
+  };
+  useState(() => {
+    if (deleteState === "success") {
+      navigate("/");
+    }
+  }, [deleteState]);
 
   return (
     <div className="PostDetail">
+      {screen}
+      {}
       <div className="title">
-        <p>{postData.title}</p>
+        <p>{post.title}</p>
       </div>
-      <div className="content">{postData.content}</div>
+      <div className="content">{post.content}</div>
       <div className="date">{printingWritedDate}</div>
       <div className="button-group">
         <Button

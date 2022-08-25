@@ -1,0 +1,52 @@
+.InputForm {
+  height: 500px;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+  padding: 80px 40px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  position: relative;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  margin-top: 100px;
+  form {
+    .row {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      label {
+        text-align: center;
+      }
+      input {
+        width: 600px;
+      }
+      &:not(:last-of-type)::before {
+        content: "*";
+        color: red;
+        position: absolute;
+      }
+      &:last-child::before {
+        content: none;
+      }
+    }
+    .nickname div {
+      position: relative;
+    }
+    .btn-submit {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+    }
+    .button-check-overlay {
+      position: absolute;
+      right: 7px;
+      bottom: 0;
+      top: 0;
+    }
+  }
+}

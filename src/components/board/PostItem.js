@@ -1,15 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const PostItem = (props) => {
+const PostItem = ({ data }) => {
   const navigate = useNavigate();
-  const { data } = props;
   const writedDate = new Date(data.date);
   const printingWritedDate = `${writedDate.getMonth()}월 ${writedDate.getDate()}일`;
   const handlePost = () => {
-    navigate(`${data.boardName}/${data.id}`);
+    navigate(`${data.writeCount}`);
   };
-  console.log(data.date);
   return (
     <li className="PostItem">
       <ul className="post" onClick={handlePost}>

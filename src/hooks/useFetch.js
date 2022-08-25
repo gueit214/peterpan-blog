@@ -164,9 +164,9 @@ export const updateProfileFetch = async (data) => {
 
 //------------------------------------------------------------------------------
 // board 불러오기
-export const getPostList = async (boardName) => {
+export const getPostList = async () => {
   const response = await fetch(
-    `https://peterpan-blog-default-rtdb.firebaseio.com/${boardName}.json`
+    `https://peterpan-blog-default-rtdb.firebaseio.com/board.json`
   );
   const responseData = await response.json();
   if (!response.ok) {
@@ -176,9 +176,29 @@ export const getPostList = async (boardName) => {
 };
 
 // board 새로쓰기
-export const writePost = async (data) => {
+export const writeNewPost = async (data) => {
+  const responseCount = await fetch(
+    `https://peterpan-blog-default-rtdb.firebaseio.com/writeCount.json`
+  );
+  const responseCountData = await responseCount.json();
+  if (!responseCount.ok) {
+    throw new Error(responseCountData.error.message);
+  }
+
+  const responseCountPlus = await fetch(
+    `https://peterpan-blog-default-rtdb.firebaseio.com/writeCount.json`,
+    {
+      method: "PUT",
+      body: JSON.stringify(responseCountData + 1),
+    }
+  );
+  const responseCountPlusData = await responseCountPlus.json();
+  if (!responseCountPlus.ok) {
+    throw new Error(responseCountPlusData.error.message);
+  }
+
   const response = await fetch(
-    `https://peterpan-blog-default-rtdb.firebaseio.com/${data.board}.json`,
+    `https://peterpan-blog-default-rtdb.firebaseio.com/board.json`,
     {
       method: "POST",
       body: JSON.stringify({
@@ -186,7 +206,24 @@ export const writePost = async (data) => {
         content: data.content,
         date: data.date,
         nickname: data.nickname,
+        writeCount: responseCountData + 1,
+        board: data.board,
       }),
+    }
+  );
+  const responseData = await response.json();
+  if (!response.ok) {
+    throw new Error(responseData.error.message);
+  }
+  return responseCountData;
+};
+
+// board 삭제
+export const deletePostList = async (postId) => {
+  const response = await fetch(
+    `https://peterpan-blog-default-rtdb.firebaseio.com/board/${postId}.json`,
+    {
+      method: "DELETE",
     }
   );
   const responseData = await response.json();
@@ -195,6 +232,20 @@ export const writePost = async (data) => {
   }
   return responseData;
 };
+
+// board 수정
+
+// boardDetail 불러오기
+// export const getPostDetail = async () => {
+//   const response = await fetch(
+//     `https://peterpan-blog-default-rtdb.firebaseio.com/board.json`
+//   );
+//   const responseData = await response.json();
+//   if (!response.ok) {
+//     throw new Error(responseData.error.message);
+//   }
+//   return responseData;
+// };
 
 const useFetch = (fetchFunction) => {
   const [fetchState, dispatch] = useReducer(reducer, {

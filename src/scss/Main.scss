@@ -1,0 +1,15 @@
+.Main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+  .link-board {
+    text-decoration: none;
+    color: black;
+  }
+}

@@ -3,25 +3,24 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-import useFetch, { writePost } from "../hooks/useFetch";
+import useFetch, { writeNewPost } from "../hooks/useFetch";
 import useScreen from "../hooks/useScreen";
 
 const NewWrite = () => {
   const navigate = useNavigate();
   const handleTempSave = () => {};
   const { sendRequest, status, message, setFetchStateDefault } =
-    useFetch(writePost);
+    useFetch(writeNewPost);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(e.target);
     const title = e.target[0].value;
     const content = e.target[1].value;
     const board = e.target[2].value;
     const date = new Date();
     const nickname = localStorage.getItem("displayName");
 
-    sendRequest({
+    await sendRequest({
       title,
       content,
       date,
@@ -41,6 +40,7 @@ const NewWrite = () => {
     errorMessage: message,
     setFetchStateDefault,
   });
+
   return (
     <form className="NewWrite" onSubmit={handleSubmit}>
       {screen}
