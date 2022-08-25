@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 const PostDetail = () => {
   const params = useParams();
@@ -8,7 +9,7 @@ const PostDetail = () => {
   const fetchPost = useCallback(async () => {
     const sendRequest = async () => {
       const response = await fetch(
-        `https://peterpan-blog-default-rtdb.firebaseio.com/board1/${params.id}.json`
+        `https://peterpan-blog-default-rtdb.firebaseio.com/${params.boardName}/${params.id}.json`
       );
       const reponseData = await response.json();
       if (response.ok) {
@@ -31,25 +32,35 @@ const PostDetail = () => {
   useEffect(() => {
     fetchPost();
   }, []);
-  let date;
-  if (postData.date) {
-    date = `${postData.date.slice(0, 4)}년 ${postData.date.slice(
-      5,
-      7
-    )}월 ${postData.date.slice(8, 10)}일`;
-  }
+  const writedDate = new Date(postData.date);
+  const printingWritedDate = `${writedDate.getFullYear()}년 ${writedDate.getMonth()}월 ${writedDate.getDate()}일 ${writedDate.getHours()}시 ${writedDate.getMinutes()}분`;
 
-  // // const date = `${postData.date.slice(0, 4)}년 ${postData.date.slice(
-  //   5,
-  //   7
-  // )}월 ${postData.date.slice(8, 10)}일`;
+  const handleEditPost = () => {};
+  const handleDeletePost = () => {};
+
   return (
     <div className="PostDetail">
       <div className="title">
         <p>{postData.title}</p>
       </div>
       <div className="content">{postData.content}</div>
-      <div className="date">{date}</div>
+      <div className="date">{printingWritedDate}</div>
+      <div className="button-group">
+        <Button
+          variant="outline-secondary"
+          onClick={handleEditPost}
+          className="button-edit"
+        >
+          수정
+        </Button>{" "}
+        <Button
+          variant="outline-danger"
+          onClick={handleDeletePost}
+          className="button-delete"
+        >
+          삭제
+        </Button>{" "}
+      </div>
     </div>
   );
 };

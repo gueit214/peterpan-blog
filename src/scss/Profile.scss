@@ -1,0 +1,32 @@
+.ProfileForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 50px 30px;
+  .title {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+  }
+  .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    label {
+      text-align: center;
+    }
+    input {
+      width: 700px;
+    }
+  }
+  .button-section {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+}

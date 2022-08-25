@@ -4,22 +4,25 @@ import { useNavigate } from "react-router-dom";
 const PostItem = (props) => {
   const navigate = useNavigate();
   const { data } = props;
-  const date = `${data.date.slice(5, 7)}월 ${data.date.slice(8, 10)}일`;
-
+  const writedDate = new Date(data.date);
+  const printingWritedDate = `${writedDate.getMonth()}월 ${writedDate.getDate()}일`;
   const handlePost = () => {
-    navigate(`post/${data.id}`);
+    navigate(`${data.boardName}/${data.id}`);
   };
+  console.log(data.date);
   return (
     <li className="PostItem">
       <ul className="post" onClick={handlePost}>
-        <li className="title">{data.title}</li>
-        <li className="date">{date}</li>
+        <div className="first-line">
+          <div className="author">{data.nickname}</div>
+          <div className="date">{printingWritedDate}</div>
+        </div>
+        <div className="second-line">
+          <div className="title">{data.title}</div>
+        </div>
       </ul>
     </li>
   );
 };
-// id: data[0],
-// content: data[1].content,
-// date: data[1].date,
-// authorId: data[1].id,
-export default PostItem;
+
+export default React.memo(PostItem);

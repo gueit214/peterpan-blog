@@ -1,44 +1,50 @@
 import React, { useCallback, useEffect, useState } from "react";
+import useFetch, { getPostList } from "../../hooks/useFetch";
+import useScreen from "../../hooks/useScreen";
 import PostItem from "./PostItem";
 
 const PostList = (props) => {
-  const [postData, setPostData] = useState([]);
+  const [postList, setPostList] = useState([]);
   const { board } = props;
-  const fetchPost = useCallback(async () => {
-    const sendRequest = async () => {
-      const response = await fetch(
-        `https://peterpan-blog-default-rtdb.firebaseio.com/${board.name}.json`
-      );
-      const reponseData = await response.json();
-      if (response.ok) {
-        let postDatas = [];
-        Object.entries(reponseData).forEach((data) => {
-          postDatas.push({
-            id: data[0],
-            title: data[1].title,
-            content: data[1].content,
-            date: data[1].date,
-            authorId: data[1].id,
-          });
-        });
-        return postDatas;
-      } else {
-        throw new Error(reponseData.error);
-      }
-    };
-    try {
-      const responseData = await sendRequest();
-      setPostData(responseData);
-    } catch (error) {}
+
+  const { sendRequest, status, message, setFetchStateDefault } =
+    useFetch(getPostList);
+
+  const getPostFromDB = useCallback(async () => {
+    const responsePost = await sendRequest(board.name);
+    const reponsePostList = [];
+    if (!responsePost) {
+      return;
+    }
+    Object.entries(responsePost).forEach((post) => {
+      reponsePostList.push({
+        id: post[0],
+        title: post[1].title,
+        content: post[1].content,
+        date: post[1].date,
+        nickname: post[1].nickname,
+        boardName: board.name,
+      });
+    });
+    setPostList(reponsePostList);
   }, []);
+
   useEffect(() => {
-    fetchPost();
-  }, []);
+    getPostFromDB();
+  }, [getPostFromDB]);
+
+  const screen = useScreen({
+    status,
+    errorMessage: message,
+    setFetchStateDefault,
+    goToMainIfSuccess: false,
+  });
 
   return (
     <ul className="PostList">
-      {postData &&
-        postData.map((data) => <PostItem key={data.id} data={data} />)}
+      {screen}
+      {postList &&
+        postList.map((data) => <PostItem key={data.id} data={data} />)}
     </ul>
   );
 };

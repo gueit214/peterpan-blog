@@ -3,13 +3,19 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  height: 600px;
   .LoginForm {
     width: 500px;
-    height: 600px;
-    // background-color: Red;
+    height: 300px;
     padding: 50px 20px;
     box-sizing: border-box;
     border: 1px solid gray;
     border-radius: 10px;
+    position: relative;
+    .button-group {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+    }
   }
 }

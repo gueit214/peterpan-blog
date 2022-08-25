@@ -6,14 +6,10 @@ const Header = () => {
   const navigate = useNavigate();
   const { isLogin, onLogout } = useContext(LoginContext);
   const handleLogout = () => {
-    onLogout();
     navigate("/");
+    onLogout();
   };
-  let profileUrl;
-  if (isLogin) {
-    const { nickname } = JSON.parse(localStorage.getItem("loginInfo"));
-    profileUrl = `/profile/${nickname}`;
-  }
+
   return (
     <header className="Header">
       <NavLink to="/main" className="title nav-link">
@@ -36,22 +32,9 @@ const Header = () => {
       <nav className="link-util">
         <ul className="nav nav-tabs">
           <li>
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-          </li>
-          <li>
-            <NavLink to="/search" className="nav-search nav-link">
-              검색
-            </NavLink>
-          </li>
-          <li>
             {isLogin ? (
               <div className="form-group">
-                <NavLink to={profileUrl} className="nav-login nav-link">
+                <NavLink to="/profile" className="nav-login nav-link">
                   프로필
                 </NavLink>
                 <button className="nav-login nav-link" onClick={handleLogout}>

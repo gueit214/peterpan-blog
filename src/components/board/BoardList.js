@@ -1,10 +1,11 @@
+import React from "react";
 import BoardItem from "./BoardItem";
 
 const DUMPBOARD = [
-  { id: "b1", name: "board1", title: "게시판1" },
-  { id: "b2", name: "board2", title: "게시판2" },
-  { id: "b3", name: "board3", title: "게시판3" },
-  { id: "b4", name: "board4", title: "게시판4" },
+  { id: "b1", name: "board1", title: "자유게시판" },
+  { id: "b2", name: "board2", title: "유머게시판" },
+  { id: "b3", name: "board3", title: "소통게시판" },
+  { id: "b4", name: "board4", title: "취미게시판" },
 ];
 
 const BoardList = () => {
@@ -17,4 +18,4 @@ const BoardList = () => {
   );
 };
 
-export default BoardList;
+export default React.memo(BoardList);
