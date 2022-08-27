@@ -1,6 +1,6 @@
 import Button from "react-bootstrap/Button";
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import BoardList from "../components/board/BoardList";
 import useFetch, { getProfileFetchFromAuth } from "../hooks/useFetch";
 import useScreen from "../hooks/useScreen";
@@ -33,7 +33,7 @@ const Board = () => {
   });
 
   const handleNewWrite = () => {
-    navigate("/newwrite");
+    navigate("new");
   };
   return (
     <div className="Board">

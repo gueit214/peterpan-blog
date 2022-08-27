@@ -1,17 +1,35 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { useNavigate } from "react-router-dom";
-import useFetch, { writeNewPost } from "../hooks/useFetch";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
+import useFetch, { writeNewPost, writeEditPost } from "../hooks/useFetch";
 import useScreen from "../hooks/useScreen";
 
-const NewWrite = () => {
+// console.log(thisPostDefaultValue);
+const WritePost = ({ isNewWrite }) => {
+  const [thisPostDefaultValueState, setThisPostDefaultValueState] = useState({
+    title: "",
+    content: "",
+    board: "",
+    id: "",
+  });
+  useEffect(() => {
+    const thisPostDefaultValue = JSON.parse(localStorage.getItem("thisPost"));
+    setThisPostDefaultValueState({
+      title: thisPostDefaultValue.title,
+      content: thisPostDefaultValue.content,
+      board: thisPostDefaultValue.board,
+      id: thisPostDefaultValue.id,
+      writeCount: thisPostDefaultValue.writeCount,
+    });
+  }, []);
   const navigate = useNavigate();
   const handleTempSave = () => {};
-  const { sendRequest, status, message, setFetchStateDefault } =
-    useFetch(writeNewPost);
-
+  const { sendRequest, status, message, setFetchStateDefault } = useFetch(
+    isNewWrite ? writeNewPost : writeEditPost
+  );
+  d;
   const handleSubmit = async (e) => {
     e.preventDefault();
     const title = e.target[0].value;
@@ -19,19 +37,23 @@ const NewWrite = () => {
     const board = e.target[2].value;
     const date = new Date();
     const nickname = localStorage.getItem("displayName");
-
+    const postId = isNewWrite ? "" : thisPostDefaultValueState.id;
+    const writeCount = isNewWrite ? "" : thisPostDefaultValueState.writeCount;
     await sendRequest({
       title,
       content,
       date,
       nickname,
       board,
+      postId,
+      writeCount,
     });
+    localStorage.removeItem("thisPost");
   };
 
   useEffect(() => {
     if (status === "success") {
-      navigate("/board");
+      navigate("/board", { replace: false });
     }
   }, [status]);
 
@@ -40,9 +62,8 @@ const NewWrite = () => {
     errorMessage: message,
     setFetchStateDefault,
   });
-
   return (
-    <form className="NewWrite" onSubmit={handleSubmit}>
+    <form className="WritePost" onSubmit={handleSubmit}>
       {screen}
       <section className="post-section">
         <FloatingLabel
@@ -53,7 +74,7 @@ const NewWrite = () => {
           <Form.Control
             as="textarea"
             placeholder="Leave a title here"
-            // ref={titleRef}
+            defaultValue={isNewWrite ? "" : thisPostDefaultValueState.title}
           />
         </FloatingLabel>
         <FloatingLabel
@@ -64,13 +85,13 @@ const NewWrite = () => {
           <Form.Control
             as="textarea"
             placeholder="Leave a content here"
-            // ref={contentRef}
+            defaultValue={isNewWrite ? "" : thisPostDefaultValueState.content}
           />
         </FloatingLabel>
         <Form.Select
           className="board"
-          // ref={boardRef}
           aria-label="Default select example"
+          defaultValue={isNewWrite ? "" : thisPostDefaultValueState.board}
         >
           <option value="board1">자유게시판</option>
           <option value="board2">유머게시판</option>
@@ -90,4 +111,4 @@ const NewWrite = () => {
   );
 };
 
-export default NewWrite;
+export default WritePost;

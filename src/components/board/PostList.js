@@ -12,21 +12,23 @@ const PostList = (props) => {
 
   const getPostFromDB = useCallback(async () => {
     const responsePost = await sendRequest();
-    const thisBoardPost = Object.values(responsePost).filter(
-      (post) => post.board === board.name
-    );
-    const responsePostList = [];
-    if (!responsePost) {
-      return;
-    }
-    Object.entries(thisBoardPost).forEach((post) => {
-      responsePostList.push({
-        id: post[0],
-        ...post[1],
-        boardName: board.name,
+    if (responsePost) {
+      const thisBoardPost = Object.values(responsePost).filter(
+        (post) => post.board === board.name
+      );
+      const responsePostList = [];
+      if (!responsePost) {
+        return;
+      }
+      Object.entries(thisBoardPost).forEach((post) => {
+        responsePostList.push({
+          id: post[0],
+          ...post[1],
+          boardName: board.name,
+        });
       });
-    });
-    setPostList(responsePostList);
+      setPostList(responsePostList);
+    }
   }, []);
 
   useEffect(() => {

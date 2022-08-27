@@ -27,6 +27,11 @@ const Header = () => {
               게시판
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/playground" className="nav-board nav-link">
+              Playground
+            </NavLink>
+          </li>
         </ul>
       </nav>
       <nav className="link-util">

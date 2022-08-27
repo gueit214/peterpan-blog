@@ -4,12 +4,13 @@ import { lazy, Suspense, useContext } from "react";
 import LoginContext from "./store/login-context";
 import PostDetail from "./pages/PostDetail";
 import "./scss/App.scss";
+import Playground from "./pages/Playground";
 
 const Main = lazy(() => import("./pages/Main"));
 const Login = lazy(() => import("./pages/Login"));
 const Board = lazy(() => import("./pages/Board"));
 const Search = lazy(() => import("./pages/Search"));
-const NewWrite = lazy(() => import("./pages/NewWrite"));
+const WritePost = lazy(() => import("./pages/WritePost"));
 const Signup = lazy(() => import("./pages/Signup"));
 const Profile = lazy(() => import("./pages/Profile"));
 const NoAuth = lazy(() => import("./pages/NoAuth"));
@@ -25,20 +26,25 @@ function App() {
             <Route path="main" element={<Main />} />
             <Route path="board" element={isLogin ? <Board /> : <NoAuth />} />
             <Route
+              path="board/new"
+              element={isLogin ? <WritePost isNewWrite /> : <NoAuth />}
+            />
+            <Route
               path="board/:writeCount"
               element={isLogin ? <PostDetail /> : <NoAuth />}
             />
             <Route
-              path="newwrite"
-              element={isLogin ? <NewWrite /> : <NoAuth />}
+              path="board/:postId/edit"
+              element={isLogin ? <WritePost isNewWrite={false} /> : <NoAuth />}
             />
+
             <Route path="login" element={<Login />} />
             <Route
               path="profile"
               element={isLogin ? <Profile /> : <NoAuth />}
             />
             <Route path="signup" element={<Signup />} />
-            <Route path="search" element={<Search />} />
+            <Route path="playground" element={<Playground />} />
             <Route path="noauth" element={<NoAuth />} />
           </Routes>
         </Suspense>

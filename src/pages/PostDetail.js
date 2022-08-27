@@ -1,8 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { Suspense, useCallback, useEffect, useState } from "react";
+import { Route, Routes, useNavigate, useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import useFetch, { deletePostList, getPostList } from "../hooks/useFetch";
 import useScreen from "../hooks/useScreen";
+import WritePost from "./WritePost";
+import Main from "./Main";
 
 const PostDetail = () => {
   const navigate = useNavigate();
@@ -51,7 +53,12 @@ const PostDetail = () => {
 
   const writedDate = new Date(post.date);
   const printingWritedDate = `${writedDate.getFullYear()}년 ${writedDate.getMonth()}월 ${writedDate.getDate()}일 ${writedDate.getHours()}시 ${writedDate.getMinutes()}분`;
-  const handleEditPost = () => {};
+  console.log(post);
+  const handleEditPost = () => {
+    localStorage.setItem("thisPost", JSON.stringify(post));
+    navigate("edit");
+  };
+
   const handleDeletePost = async () => {
     if (window.confirm("정말로 삭제하시겠습니까?")) {
       await deleteSendRequest(post.id);
@@ -63,31 +70,36 @@ const PostDetail = () => {
     }
   }, [deleteState]);
 
+  const buttonScreen = post.nickname ===
+    localStorage.getItem("displayName") && (
+    <div className="button-group">
+      <Button
+        variant="outline-secondary"
+        onClick={handleEditPost}
+        className="button-edit"
+      >
+        수정
+      </Button>{" "}
+      <Button
+        variant="outline-danger"
+        onClick={handleDeletePost}
+        className="button-delete"
+      >
+        삭제
+      </Button>{" "}
+    </div>
+  );
+
   return (
     <div className="PostDetail">
       {screen}
-      {}
       <div className="title">
         <p>{post.title}</p>
       </div>
+      <div className="nickname">{post.nickname}</div>
       <div className="content">{post.content}</div>
       <div className="date">{printingWritedDate}</div>
-      <div className="button-group">
-        <Button
-          variant="outline-secondary"
-          onClick={handleEditPost}
-          className="button-edit"
-        >
-          수정
-        </Button>{" "}
-        <Button
-          variant="outline-danger"
-          onClick={handleDeletePost}
-          className="button-delete"
-        >
-          삭제
-        </Button>{" "}
-      </div>
+      {buttonScreen}
     </div>
   );
 };

@@ -175,7 +175,7 @@ export const getPostList = async () => {
   return responseData;
 };
 
-// board 새로쓰기
+// post 새로쓰기
 export const writeNewPost = async (data) => {
   const responseCount = await fetch(
     `https://peterpan-blog-default-rtdb.firebaseio.com/writeCount.json`
@@ -216,6 +216,30 @@ export const writeNewPost = async (data) => {
     throw new Error(responseData.error.message);
   }
   return responseCountData;
+};
+
+// POST 수정하기
+export const writeEditPost = async (data) => {
+  console.log(data.postId);
+  const response = await fetch(
+    `https://peterpan-blog-default-rtdb.firebaseio.com/board/${data.postId}.json`,
+    {
+      method: "PUT",
+      body: JSON.stringify({
+        title: data.title,
+        content: data.content,
+        date: data.date,
+        nickname: data.nickname,
+        board: data.board,
+        writeCount: data.writeCount,
+      }),
+    }
+  );
+  const responseData = await response.json();
+  if (!response.ok) {
+    throw new Error(responseData.error.message);
+  }
+  return;
 };
 
 // board 삭제

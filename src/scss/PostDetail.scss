@@ -6,7 +6,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
     p {
       border: 1px solid gray;
       border-radius: 10px;
@@ -30,5 +29,16 @@
     position: absolute;
     right: 10px;
     bottom: 10px;
+  }
+  .nickname {
+    position: absolute;
+    right: 10px;
+    bottom: 40px;
+  }
+  .button-group {
+    position: absolute;
+    right: 0;
+    bottom: -50px;
+    right: 10px;
   }
 }
