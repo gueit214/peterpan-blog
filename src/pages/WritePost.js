@@ -6,30 +6,33 @@ import { Outlet, useNavigate, useParams } from "react-router-dom";
 import useFetch, { writeNewPost, writeEditPost } from "../hooks/useFetch";
 import useScreen from "../hooks/useScreen";
 
-// console.log(thisPostDefaultValue);
 const WritePost = ({ isNewWrite }) => {
   const [thisPostDefaultValueState, setThisPostDefaultValueState] = useState({
     title: "",
     content: "",
     board: "",
     id: "",
+    writeCount: "",
   });
   useEffect(() => {
     const thisPostDefaultValue = JSON.parse(localStorage.getItem("thisPost"));
-    setThisPostDefaultValueState({
-      title: thisPostDefaultValue.title,
-      content: thisPostDefaultValue.content,
-      board: thisPostDefaultValue.board,
-      id: thisPostDefaultValue.id,
-      writeCount: thisPostDefaultValue.writeCount,
-    });
+    if (!isNewWrite) {
+      setThisPostDefaultValueState({
+        title: thisPostDefaultValue.title,
+        content: thisPostDefaultValue.content,
+        board: thisPostDefaultValue.board,
+        id: thisPostDefaultValue.id,
+        writeCount: thisPostDefaultValue.writeCount,
+      });
+    }
   }, []);
+
   const navigate = useNavigate();
   const handleTempSave = () => {};
   const { sendRequest, status, message, setFetchStateDefault } = useFetch(
     isNewWrite ? writeNewPost : writeEditPost
   );
-  d;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const title = e.target[0].value;

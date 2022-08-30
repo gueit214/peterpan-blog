@@ -56,6 +56,7 @@ const LoginForm = () => {
         >
           회원가입
         </button>
+        <div> </div>
       </div>
     </form>
   );

@@ -27,7 +27,7 @@ function App() {
             <Route path="board" element={isLogin ? <Board /> : <NoAuth />} />
             <Route
               path="board/new"
-              element={isLogin ? <WritePost isNewWrite /> : <NoAuth />}
+              element={isLogin ? <WritePost isNewWrite={true} /> : <NoAuth />}
             />
             <Route
               path="board/:writeCount"
