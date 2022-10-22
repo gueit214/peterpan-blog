@@ -81,7 +81,7 @@ const SignupForm = () => {
     }
 
     // 회원가입
-    await sendRequest({
+    const { signupResponseData } = await sendRequest({
       signupData: {
         email: id,
         password: pw,

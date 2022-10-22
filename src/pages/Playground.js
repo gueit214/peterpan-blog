@@ -1,36 +1,17 @@
 import React from "react";
-import { GoogleLogin } from "react-google-login";
-// import { GoogleOAuthProvider } from "@react-oauth/google";
+import ApolloClient, { gql } from "apollo-boost";
+import { ApolloProvider } from "@apollo/react-hooks";
 
 function Playground() {
-  const clientId =
-    "6136276275-gaabnsshn8qgo866jicfs18odhq8uq7r.apps.googleusercontent.com";
-
-  async function onSuccess(res) {
-    const profile = res.getBasicProfile();
-    const userdata = {
-      email: profile.getEmail(),
-      image: profile.getImageUrl(),
-      name: profile.getName(),
-    };
-    // 로그인 성공 후 실행하기 원하는 코드 작성.
-  }
-
-  const onFailure = (res) => {
-    console.log("err", res);
-    alert("구글 로그인에 실패하였습니다");
-  };
+  const client = new ApolloClient({
+    uri: "https://48p1r2roz4.sse.codesandbox.io",
+  });
   return (
-    <div>
-      <GoogleLogin
-        className="google-button"
-        clientId={clientId}
-        buttonText="Login with Google" // 버튼에 뜨는 텍스트
-        onSuccess={onSuccess}
-        onFailure={onFailure}
-        // cookiePolicy={"single_host_origin"}
-      />
-    </div>
+    <ApolloProvider client={client}>
+      <div>
+        <h2>My first Apollo app </h2>
+      </div>
+    </ApolloProvider>
   );
 }
 
