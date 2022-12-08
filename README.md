@@ -38,7 +38,7 @@
 
 ### 게시판
 
-<img src="https://user-images.githubusercontent.com/62178788/206333916-0fe6922a-65c9-4084-893e-5c23605b745a.gif" width="400px" />
+<img src="https://user-images.githubusercontent.com/62178788/206333916-0fe6922a-65c9-4084-893e-5c23605b745a.gif" width="600px" />
 
 ### 프로필
 
