@@ -1,4 +1,4 @@
-# WE (Exercise Memo, 운동을 적다)
+# Peterpan Blog
 
 ## 🎈 사용 목적 및 소개
 
