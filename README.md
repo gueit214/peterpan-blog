@@ -34,15 +34,15 @@
 
 ### 회원가입
 
-<img src="https://user-images.githubusercontent.com/62178788/206333905-733e9e4d-413b-432e-b214-e21afdecb388.gif" width="400px" />
+<img src="https://user-images.githubusercontent.com/62178788/206333905-733e9e4d-413b-432e-b214-e21afdecb388.gif" width="600px" />
 
 ### 게시판
 
-<img src="https://user-images.githubusercontent.com/62178788/206333911-e51f7118-2cf4-4129-9a6e-fad6420e28d3.gif" width="400px" />
+<img src="https://user-images.githubusercontent.com/62178788/206333916-0fe6922a-65c9-4084-893e-5c23605b745a.gif" width="400px" />
 
 ### 프로필
 
-<img src="https://user-images.githubusercontent.com/62178788/206333916-0fe6922a-65c9-4084-893e-5c23605b745a.gif" width="400px" />
+<img src="https://user-images.githubusercontent.com/62178788/206335130-683479e0-74ec-434a-ae46-ffc53d5a4809.gif" width="600px" />
 
 ## 파일 구성
 
@@ -153,7 +153,3 @@
 ## 🔥 기술 스택 및 사용 라이브러리
 
 - React
-
-## 🦄 Demo Image
-
-#### 👉 DeskTop
