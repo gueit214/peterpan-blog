@@ -1,70 +1,159 @@
-# Getting Started with Create React App
+# WE (Exercise Memo, 운동을 적다)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🎈 사용 목적 및 소개
 
-## Available Scripts
+- 제가 준 링크를 타고온 지인들만이 회원가입, 로그인하여 댓글을 작성하고, 제 글을 볼 수 있는 나만의 블로그를 만들고 싶었어요 :)
 
-In the project directory, you can run:
+<br />
 
-### `npm start`
+## 👉 개발 기간
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 2022.08.18 ~ 2022.08.31
+  <br /><br />
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🎈개발 도구
 
-### `npm test`
+- React
+  - useState, useReducer, useContext, useNavigate, localStorage 활용
+  - 메모이징 함수(useMemo, useCallback) 일부 활용
+    </br>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 기능
 
-### `npm run build`
+- 회원 기능
+  - 회원가입, 로그인, 로그아웃
+    - Firebase-Auth REST API
+    - 로그인 상태 ; context
+- 게시판 구현 기능
+  - 게시글 작성, 수정, 삭제
+    - Firebase-Database
+- 페이지별 주소 다르게 구현
+  - React-router-dom 이용
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 시연 영상
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 회원가입
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<img src="https://user-images.githubusercontent.com/62178788/206333905-733e9e4d-413b-432e-b214-e21afdecb388.gif" width="400px" />
 
-### `npm run eject`
+### 게시판
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<img src="https://user-images.githubusercontent.com/62178788/206333911-e51f7118-2cf4-4129-9a6e-fad6420e28d3.gif" width="400px" />
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 프로필
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+<img src="https://user-images.githubusercontent.com/62178788/206333916-0fe6922a-65c9-4084-893e-5c23605b745a.gif" width="400px" />
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 파일 구성
 
-## Learn More
+- src
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  - App.js, App.css, index.js, index.js
+  - assets ; 사진들
+  - components
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    - UI
+      - Layout.js
+      - Header.js
+      - Footer.js
+    - ## main
+    - board
+      - BoardList.js
+        - BoardItem.js \* 4
+          - PostList.js
+            - PostItem.js \* n
 
-### Code Splitting
+  - pages - Main.js - /main - Board.js - /board - Board1.js - /board1 - /board1/id - Board2.js - /board2 - /board2/id - Board3.js - /board3 - /board3/id - Board4.js - /board4 - /board4/id - Login.js - Search.js
+    <br /> <br />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 📚 Project Settings
 
-### Analyzing the Bundle Size
+#### 📢 Install npm dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+> npm install
+```
 
-### Making a Progressive Web App
+#### 📢 Start dev-server
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+> npm run start
+```
 
-### Advanced Configuration
+#### 📢 Run tests
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Run unit test and e2e test
 
-### Deployment
+```bash
+> npm test
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- unit test
 
-### `npm run build` fails to minify
+```bash
+> npm run test:unit
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Run e2e test
+
+```bash
+> npm run test:e2e
+```
+
+#### 📢 Run build project
+
+```bash
+> npm build
+```
+
+#### 📢 Run Lint
+
+```bash
+> npm run lint
+```
+
+#### 📢 Run Coverage
+
+```bash
+> npm run coverage
+```
+
+- 자세한 사항은 `package.json`의 `scripts` 참고
+
+## 📚 Getting start with firebase
+
+- [Firebase](https://firebase.google.com/)
+- [Docs](https://firebase.google.com/docs/cli?hl=ko)
+
+#### 📢 firebase API키 관리
+
+- [Firebase API 키 관리에 대한 참고 사항](https://github.com/CodeSoom/project-react-2-saseungmin/issues/133)
+- [Firebase API 키에 대해서 작성한 블로그 글](https://haranglog.tistory.com/25)
+
+#### 📢 Initial firebase setup
+
+- Install firebase-tools
+
+```bash
+> npm install -g firebase-tools
+```
+
+- Login to firebase
+
+```bash
+> firebase login
+```
+
+- Deploy with firebase hosting
+
+```bash
+> firebase deploy
+```
+
+## 🔥 기술 스택 및 사용 라이브러리
+
+- React
+
+## 🦄 Demo Image
+
+#### 👉 DeskTop
